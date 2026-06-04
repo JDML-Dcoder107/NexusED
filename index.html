@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusED Portal</title>
+</head>
+<body class="login-page">
+
+    <!-- Background Grids -->
+    <div class="background-grid"></div>
+    <div class="background-scanlines"></div>
+
+    <!-- Corner Marks-->
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+
+    <!-- Main Class -->
+    <main class="login-interface">
+
+        <div class="brand-block">
+            <div class="brand-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="40" height="40" stroke="var(--accent)" stroke-width="2"/>
+                    <rect x="12" y="12" width="24" height="24" fill="var(--accent)" opacity=".15"/>
+                    <path d="M14 24 L24 14 L34 24 L24 34 Z" stroke="var(--accent)" stroke-width="2" fill="none"/>
+                    <circle cx="24" cy="24" r="3" fill="var(--accent)"/>
+                </svg>
+            </div>
+
+            <h1 class="brand-name">NexusED</h1>
+            <p class="brand-sub">School Information System / V1.0</p>
+        </div>
+
+        <!-- Tab Switcher -->
+        <div class="tab-bar">
+            <button class="tab_active" data-tab="login"> Sign In</button>
+            <button class="tab" data-tab="register">Enroll</button>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="form-card" autocomplete="off">
+            <div class="field-group">
+                <label class="field-label">Student SR-CODE</label>
+
+                <div class="input-wrap">
+                    <span class="input-prefix">SR-CODE</span>
+                    <input required type="text" id="loginID" placeholder="24-12345" class="field-input" />
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Password</label>
+                <div class="input-wrap">
+                    <span class="input-prefix">PW//</span>
+                    <input required type="password" id="loginPW" placeholder="***********" maxlength="16" minlength="8" class="field-input" /> 
+                </div>
+            </div>
+            <div id="loginError" class="msg msg--error hidden"></div>
+            <button type="submit" class="btn-primary">
+                <span class="btn-text">AUTHENTICATE</span>
+                <span class="btn-arrow">→</span>
+            </button>
+            <p class="hint">Demo: <code>24-02573</code> / <code>demo123</code></p>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registrationForm" class="form-card_hidden" autocomplete="off">
+            <div class="field-row">
+                <div class="field-group">
+                    <label class="field-label">Full Name</label>
+                    <div class="input-wrap">
+                        <input required type="text" id="studentName" placeholder="Juan Dela Cruz" class="field-input" />
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Email</label>
+                    <div class="input-wrap">
+                        <input required type="email" id="studentEmail" placeholder="you@student.edu" class="field-input" />
+                    </div>
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field-group">
+                    <label class="field-label">Course</label>
+                    <div class="input-wrap_select-wrap">
+                        <select required id="studentCourse" class="field-input_field-select">
+                            <option value="" disabled selected>--- Select Course ---</option>
+                            <option value="bsComputerScience">BS Computer Science</option>
+                            <option value="bsInformationTechnology">BS Information Technology</option>
+                            <option value="bsInformationSystem">BS Information System</option>
+                            <option value="bsGeodeticEnginnering">BS Geodetic Engineering</option>
+                            <option value="bsCivilEngineering">BS Civil Engineering</option>
+                            <option value="bsMechanicalEngineering">BS Mechanical Engineering</option>
+                            <option value="bsElectronicsAndCommunicationEngineering">BS Electronics and Communication Engineering</option>
+                            <option value="bsAccounting">BS Accounting</option>
+                            <option value="bsPsychology">BS Psychology</option>
+                            <option value="bsNursing">BS Nursing</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label class="field-label">Year Level</label>
+                    <div class="input-wrap_select-wrap">
+                        <select required id="registeredYearLevel" class="field-input_field-select">
+                            <option value="" disabled selected>--- Year Level ---</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">Password</label>
+                <div class="input-wrap">
+                    <input type="password" id="regPW" placeholder="Create a password" class="field-input" />
+                </div>
+            </div>
+            <div id="registerMSG" class="msg_hidden"></div>
+            <button type="submit" class="btn-primary">
+                <span class="btn-text">Create Account</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </form>
+    </main>
+
+    <footer>
+        <p class="footer-note">NexusED SIS © 2026</p>
+    </footer>
+    
+</body>
+</html>
