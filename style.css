@@ -1,4 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
 
+/*Variables*/
+:root {
+    --bg: #0a0a0c;
+    --bg2: #111114;
+    --bg3: #1a1a1f;
+    --border: #2a2a32;
+    --border2: #3a3a45;
+    --text: #e8e8f0;
+    --text-dim: #7a7a90;
+    --text-muted: #4a4a5a;
+    --accent: #f0c040;
+    --accent2: #e07020;
+    --green: #40c080;
+    --red: #e04050;
+    --blue: #4080f0;
+    
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --font-body: 'DM Sans', sans-serif;
+
+    --sidebar-width: 220px;
+    --topbar-height: 56px;
+    --radius: 2px;
+    --gap: 24px;
+}
+
+/*Reset*/
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button{
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    background: none;
+}
+
+input, select {
+    font-family: var(--font-mono);
+}
 
 /*Background*/
 .background-grid{
@@ -17,4 +80,33 @@
     pointer-events: none;
     z-index: 0;
     background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.08) 2px, rgba(0, 0, 0, 0.08) 4px);
+}
+
+.corner {
+    position: fixed; 
+    width: 20px;
+    height: 20px;
+    z-index: 999;
+    pointer-events: none;
+    border-color: var(--accent)
+}
+
+/*======= LOGIN PAGE =======*/
+.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.login-wrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 520px;
+    padding: 40px 40px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    box-shadow: 0 0 80px rgba(240, 192, 64, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    animation: fadeUp .5s ease both;
 }
