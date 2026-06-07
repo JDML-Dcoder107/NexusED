@@ -154,3 +154,73 @@ input, select {
     transition: color .2s border-color .2s;
     margin-bottom: -1px;
 }
+
+.tab_active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.tab:hover {
+    color: var(--accent);
+}
+
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-card.hidden{
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.field-row {
+    display: flex;
+    gap: 14px;
+}
+
+.field-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+}
+
+.input-wrap {
+    display: flex;
+    align-items: center;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    transition: border-color .3s, box-shadow .3s;
+}
+
+.input-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(240, 192, 64, 0.1);
+}
+
+.input-prefix {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    padding: 0 10px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.field-input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text);
+    padding: 10px 12px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
