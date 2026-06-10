@@ -69,7 +69,87 @@
         </header>
 
         <div class="section-wrap">
-            
+            <!-- Overview -->
+             <section class="dash-section active" id="section-overview">
+                <div class="section-header">
+                    <h2 class="section-title">SYSTEM OVERVIEW</h2>
+                    <p class="section-sub" id="welcomeMSG">Welcome back, -</p>
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-card" data-delay="0">
+                        <p class="status-label">GPA / AVERAGE</p>
+                        <p class="status-value" id="statusGPA">-</p>
+                        <p class="status-unit">out of 100</p>
+                    </div>
+                    <div class="status-card" data-delay="1">
+                        <p class="status-label">ENROLLED SUBJECT</p>
+                        <p class="status-value" id="statusSubject">-</p>
+                        <p class="status-unit">this semester</p>
+                    </div>
+                    <div class="status-card" data-delay="2">
+                        <p class="status-label">WEEKLY CLASSES</p>
+                        <p class="status-value" id="statusClasses">-</p>
+                        <p class="status-unit">sessions / week</p>
+                    </div>
+                    <div class="status-card" data-delay="3">
+                        <p class="status-label">ACADEMIC STANDING</p>
+                        <p class="status-value small" id="statusStanding">-</p>
+                        <p class="status-unit">current term</p>
+                    </div>
+                </div>
+
+                <div class="panel-row">
+                    <div class="panel">
+                        <p class="panel-title">Grade Distribution</p>
+                        <div class="bar-chart" id="gradeChart"></div>
+                    </div>
+
+                    <div class="panel panel-narrow">
+                        <p class="panel-title">STUDENT PROFILE</p>
+                        <div class="profile-card" id="profileCard">
+                            <div class="avatar avatar-lg" id="profileAvatar">--</div>
+                            <p class="profile-card-name" id="profileCardName">-</p>
+                            <p class="profile-card-course" id="profileCardCourse">-</p>
+
+                            <div class="profile-card-tags">
+                                <span class="tag" id="tagYear">-</span>
+                                <span class="tag" id="tagID"></span>
+                            </div>
+                            <p class="profile-card-email" id="profileCardEmail">-</p>
+                        </div>
+                    </div>
+                </div>
+             </section>
+
+             <!-- Grades -->
+             <section class="dash-section" id="section-grades" >
+                <div class="section-header">
+                    <h2 class="section-title">ACADEMIC GRADES</h2>
+                    <p class="section-hub">1st Semester - AY 2026-2027</p>
+                </div>
+
+                <div class="data-table-wrap">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>COURSE CODE</th>
+                                <th>COURSE NAME</th>
+                                <th>GRADE</th>
+                                <th>SEMESTER</th>
+                                <th>SCHOOL YEAR</th>
+                                <th>REMARKS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="gradesBody">
+                            <tr>
+                                <td colspan="6" class="loading-cell">Fetching Data_</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             </section>
         </div>
      </div>
 </body>
