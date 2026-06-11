@@ -25,6 +25,9 @@
             <a href="#" class="nav-item active" data-section="overview">
                 <span class="nav-icon">◈</span><span class="nav-label">OVERVIEW</span>
             </a>
+            <a href="#" class="nav-item" data-section="enrollment">
+                <span class="nav-icon">📋</span><span class="nav-label">ENROLLMENT</span>
+            </a>
             <a href="#" class="nav-item" data-section="grades">
                 <span class="nav-icon">✏️</span><span class="nav-label">GRADES</span>
             </a>
@@ -122,6 +125,24 @@
                 </div>
              </section>
 
+             <!-- Enrollment -->
+             <section class="dash-section" id="section-enrollment">
+                <div class="section-header">
+                    <h2 class="section-title">ENROLLMENT</h2>
+                    <p class="section-sub">Browse open section - conflicts are flagged automatically</p>
+                </div>
+                <div class="enroll-filters">
+                    <button class="filter-btn active" data-filter="all">All Sections</button>
+                    <button class="filter-btn" data-filter="enrolled">My Enrolled Courses</button>
+                    <button class="filter-btn" data-filter="available">Available</button> 
+                </div>
+                <div id="enrolledSectionList">
+                    <div class="loading-cell">Loading Sections...
+
+                    </div>
+                </div>
+             </section>
+             
              <!-- Grades -->
              <section class="dash-section" id="section-grades" >
                 <div class="section-header">
@@ -150,6 +171,27 @@
                     </table>
                 </div>
              </section>
+
+             <!-- Schedule -->
+            <section class="dash-section" id="section-schedule">
+                <div class="section-header">
+                    <h2 class="section-title">Class Schedule</h2>
+                </div>
+                <div class="schedule-grid" id="scheduleGrid">
+                    <div class="loading-cell">Fetching Data_</div>
+                </div>
+            </section>
+
+            <!-- Announcement -->
+            <section class="dash-section" id="section-announcements">
+                <div class="section-header">
+                    <h2 class="section-title">Notice & Announcements</h2>
+                    <p class="section-sub">Latest campus updates</p>
+                </div>
+                <div class="notice-list" id="noticeList">
+                    <div class="loading-cell">Fetching Data_</div>
+                </div>
+            </section>
         </div>
      </div>
 </body>
