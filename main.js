@@ -59,3 +59,33 @@ function StartClock() {
     tick();
     setInterval(tick, 1000);
 }
+
+/* ----- End of Clock ---- */
+/* ----- Login Page ---- */
+function initLoginPage() {
+    //redirect to dashboard if already logged in
+    if(getSessions()){
+        window.location.href = 'dashboard.html';
+        return;
+    }
+
+    // For Tab Switching
+    qsa('.tab').forEach(tab => {
+        tab.addEventListerner(`click`, () => {
+            qsa('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const target = tab.dataset.target;
+            $(`loginForm`).classList.toggle('hidden', target !== 'login');
+            $(`registerForm`).classList.toggle('hidden', target !== 'register');
+        });
+});
+
+//Login Form 
+$('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ErrrorMsg = $(`loginError`);
+    ErrorMsg.classList.add('hidden');
+
+
+    const Student_SrCode = $(`loginID`).value.trim();
+    const Student_Password = $(`loginPW`).value.trim();
