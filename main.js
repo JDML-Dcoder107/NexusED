@@ -1,24 +1,26 @@
+//Constaant link for the API
+const API = 'http://localhost:5000/api';
 /* ---- Utility functions ---- */
-function $(id){
+function $(id) {
     return document.getElementById(id);
 }
 
-function qs(selector, ctx = document){
+function qs(selector, ctx = document) {
     return ctx.querySelector(selector);
 }
 
-function qsa(selector, ctx = document){
+function qsa(selector, ctx = document) {
     return [...ctx.querySelectorAll(selector)];
 }
 
-function ClassGrade(grade){
+function ClassGrade(grade) {
     if (grade <= 100 && grade >= 90) return 'A'
     else if (grade < 90 && grade >= 80) return 'B';
     else if (grade < 80 && grade >= 75) return 'C';
     return 'D';
 }
 
-function GradeRemarks(grade){
+function GradeRemarks(grade) {
     if (grade <= 100 && grade >= 90) return 'Satisfactory';
     else if (grade < 90 && grade >= 85) return 'Good';
     else if (grade < 85 && grade >= 80) return 'Fair';
@@ -26,7 +28,7 @@ function GradeRemarks(grade){
     return 'Failed';
 }
 
-function TimeFormat(time){
+function TimeFormat(time) {
     const [hour, minute] = time.split(":").map(Number);
     const period = hour >= 12 ? "PM" : "AM";
     return `${(hour % 12) || 12}:${String(minute).padStart(2, '0')} ${period}`;
@@ -41,7 +43,7 @@ function getSessions() {
     }
 }
 
-function clearSessions(){
+function clearSessions() {
     sessionStorage.removeItem('nexus_user');
 }
 
@@ -51,10 +53,10 @@ function clearSessions(){
 function StartClock() {
     const clock = $('topbar-clock');
     if (!clock) return;
-    
+
     const tick = () => {
         const now = new Date();
-        clock.textContent = now.toLocaleTimeString('en-PH', {hour: '2-digit', second: '2-digit', minute: '2-digit'});
+        clock.textContent = now.toLocaleTimeString('en-PH', { hour: '2-digit', second: '2-digit', minute: '2-digit' });
     };
     tick();
     setInterval(tick, 1000);
@@ -64,7 +66,7 @@ function StartClock() {
 /* ----- Login Page ---- */
 function initLoginPage() {
     //redirect to dashboard if already logged in
-    if(getSessions()){
+    if (getSessions()) {
         window.location.href = 'dashboard.html';
         return;
     }
@@ -78,14 +80,35 @@ function initLoginPage() {
             $(`loginForm`).classList.toggle('hidden', target !== 'login');
             $(`registerForm`).classList.toggle('hidden', target !== 'register');
         });
-});
+    });
 
-//Login Form 
-$('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const ErrrorMsg = $(`loginError`);
-    ErrorMsg.classList.add('hidden');
+    // Student Login Form 
+    $('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const ErrrorMsg = $(`loginError`);
+        ErrorMsg.classList.add('hidden');
 
+        const btn = qs('#loginFrom'.btn - primary);
+        btn.disabled = true;
+        qs(`#loginForm`.btn - text).textContent = 'AUTHENTICATING...';
 
-    const Student_SrCode = $(`loginID`).value.trim();
-    const Student_Password = $(`loginPW`).value.trim();
+        try {
+            const response = await fetch(`${API}/login`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ student_srcode: $('loginID').value, password: $('loginPW').value })
+            });
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || 'Login failed');
+
+            saveSession('nexus_user', data.student);
+            location.href = 'dashboard.html';
+        } catch (error) {
+            ErrorMsg.textContent = `⚠ ${error.message}`; ErrorMsg.classlist.remove('hidden');
+            btn.disabled = false; qs('#loginForm .btn-text').textContent = "AUTHENTICATE";
+        }
+    });
+
+    // Registration Form
+    
+}
