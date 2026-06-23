@@ -155,6 +155,23 @@ function initLoginPage() {
     });
 }
 
+/*Student Dashboard*/
+async function initDashboard() {
+    const user = getSession('nexus_user');
+    if (!user) { 
+        location.href = '/'; 
+        return;}
+    StartClock();
+    populateStudentProfile(user);
+    setupNav();
+    setupSidebar();
+    $('logoutBTN').addEventListener('click', () => {
+        clearSessions('nexus_user'); 
+        location.href = '/';});
+    await Promise.all([loadSummary(user.student_id), loadGrades(user.student_id), loadSchedule(user.student_id), 
+        loadAnnouncements(),loadEnrollmentSection(user.student_id)
+    ]); 
+}
 /* ----- End of Login Page ---- */
 
 initLoginPage();
