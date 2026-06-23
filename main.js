@@ -1,5 +1,6 @@
-//Constaant link for the API
+// Constant link for the API
 const API = 'http://localhost:5000/api';
+
 /* ---- Utility functions ---- */
 function $(id) {
     return document.getElementById(id);
@@ -34,17 +35,24 @@ function TimeFormat(time) {
     return `${(hour % 12) || 12}:${String(minute).padStart(2, '0')} ${period}`;
 }
 
-function getSessions() {
+// FIX 1: getSession now accepts a key parameter instead of being hardcoded
+function getSession(key) {
     try {
-        return JSON.parse(sessionStorage.getItem('nexus_user'));
+        return JSON.parse(sessionStorage.getItem(key));
     }
     catch {
         return null;
     }
 }
 
+// FIX 2: saveSession was called but never defined — added here
+function saveSession(key, value) {
+    sessionStorage.setItem(key, JSON.stringify(value));
+}
+
 function clearSessions() {
     sessionStorage.removeItem('nexus_user');
+    sessionStorage.removeItem('nexus_prof');
 }
 
 /* ---- End of Utility functions ---- */
@@ -63,52 +71,94 @@ function StartClock() {
 }
 
 /* ----- End of Clock ---- */
+
 /* ----- Login Page ---- */
 function initLoginPage() {
-    //redirect to dashboard if already logged in
-    if (getSessions()) {
-        window.location.href = 'dashboard.html';
-        return;
-    }
+    if (getSession('nexus_user')) { location.href = '/dashboard'; return; }
+    if (getSession('nexus_prof')) { location.href = '/professor'; return; }
 
-    // For Tab Switching
-    qsa('.tab').forEach(tab => {
-        tab.addEventListerner(`click`, () => {
-            qsa('.tab').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            const target = tab.dataset.target;
-            $(`loginForm`).classList.toggle('hidden', target !== 'login');
-            $(`registerForm`).classList.toggle('hidden', target !== 'register');
-        });
-    });
+    // FIX 3: Tab switching now correctly targets all buttons via '.tab'
+    // (HTML fix: first button now also has the 'tab' class)
+    qsa('.tab').forEach(btn => btn.addEventListener('click', () => {
+        qsa('.tab').forEach(t => t.classList.remove('tab_active'));
+        btn.classList.add('tab_active');
+        const tab = btn.dataset.tab;
+        $('loginForm').classList.toggle('hidden', tab !== 'login');
+        $('registrationForm').classList.toggle('hidden', tab !== 'register');
+        $('professorForm').classList.toggle('hidden', tab !== 'professor');
+    }));
 
-    // Student Login Form 
-    $('loginForm').addEventListener('submit', async (e) => {
+    // Student login
+    $('loginForm').addEventListener('submit', async e => {
         e.preventDefault();
-        const ErrrorMsg = $(`loginError`);
-        ErrorMsg.classList.add('hidden');
-
-        const btn = qs('#loginFrom'.btn - primary);
-        btn.disabled = true;
-        qs(`#loginForm`.btn - text).textContent = 'AUTHENTICATING...';
-
+        const errEl = $('loginError'); errEl.classList.add('hidden');
+        const btn = qs('#loginForm .btn-primary');
+        btn.disabled = true; qs('#loginForm .btn-text').textContent = 'AUTHENTICATING…';
         try {
-            const response = await fetch(`${API}/login`, {
+            const res = await fetch(`${API}/login`, {
                 method: 'POST', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ student_srcode: $('loginID').value, password: $('loginPW').value })
+                body: JSON.stringify({ student_id: $('loginID').value.trim(), password: $('loginPW').value })
             });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.message || 'Login failed');
-
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error);
             saveSession('nexus_user', data.student);
-            location.href = 'dashboard.html';
-        } catch (error) {
-            ErrorMsg.textContent = `⚠ ${error.message}`; ErrorMsg.classlist.remove('hidden');
-            btn.disabled = false; qs('#loginForm .btn-text').textContent = "AUTHENTICATE";
+            location.href = '/dashboard';
+        } catch (err) {
+            errEl.textContent = `⚠ ${err.message}`; errEl.classList.remove('hidden');
+            btn.disabled = false; qs('#loginForm .btn-text').textContent = 'AUTHENTICATE';
         }
     });
 
-    // Registration Form
-    
+    // Register
+    $('registrationForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        // FIX 4 (HTML side): registerMSG class was "msg_hidden", now "msg hidden" so this className reset works
+        const msgEl = $('registerMSG'); msgEl.className = 'msg hidden';
+        const btn = qs('#registrationForm .btn-primary'); btn.disabled = true;
+        qs('#registrationForm .btn-text').textContent = 'CREATING…';
+        try {
+            const res = await fetch(`${API}/register`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: $('registerName').value.trim(), email: $('registerEmail').value.trim(),
+                    course: $('registeredCourse').value, year_level: parseInt($('registeredYearLevel').value),
+                    password: $('registeredPassword').value
+                })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error);
+            msgEl.textContent = `✓ Account created! Student ID: ${data.student_id}`;
+            msgEl.className = 'msg msg--success'; $('registrationForm').reset();
+        } catch (err) {
+            msgEl.textContent = `⚠ ${err.message}`; msgEl.className = 'msg msg--error';
+        } finally {
+            btn.disabled = false; qs('#registrationForm .btn-text').textContent = 'CREATE ACCOUNT';
+        }
+    });
+
+    // Professor login
+    $('professorForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const errEl = $('profError'); errEl.classList.add('hidden');
+        const btn = qs('#professorForm .btn-primary'); btn.disabled = true;
+        qs('#professorForm .btn-text').textContent = 'VERIFYING…';
+        try {
+            const res = await fetch(`${API}/prof/login`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: $('profEmail').value.trim(), password: $('profPW').value })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error);
+            saveSession('nexus_prof', data.professor);
+            location.href = '/professor';
+        } catch (err) {
+            errEl.textContent = `⚠ ${err.message}`; errEl.classList.remove('hidden');
+            btn.disabled = false; qs('#professorForm .btn-text').textContent = 'FACULTY LOGIN';
+        }
+    });
 }
+
+/* ----- End of Login Page ---- */
+
+initLoginPage();
+StartClock();

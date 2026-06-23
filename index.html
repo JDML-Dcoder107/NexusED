@@ -38,9 +38,8 @@
             <p class="brand-sub">School Information System / V1.0</p>
         </div>
 
-        <!-- Three Tab Bar -->
         <div class="tab-bar">
-            <button class="tab_active" data-tab="login">Sign In</button>
+            <button class="tab tab_active" data-tab="login">Sign In</button>
             <button class="tab" data-tab="register">Enroll</button>
             <button class="tab" data-tab="professor">Faculty</button>
         </div>
@@ -71,7 +70,7 @@
         </form>
 
         <!-- Register Form -->
-        <form id="registrationForm" class="form-card_hidden" autocomplete="off">
+        <form id="registrationForm" class="form-card hidden" autocomplete="off">
             <div class="field-row">
                 <div class="field-group">
                     <label class="field-label">Full Name</label>
@@ -121,10 +120,11 @@
             <div class="field-group">
                 <label class="field-label">Password</label>
                 <div class="input-wrap">
-                    <input type="password" id="regPW" placeholder="Create a password" minlength="8" maxlength="16" class="field-input" />
+                    <input type="password" id="registeredPassword" placeholder="Create a password" minlength="8" maxlength="16" class="field-input" />
                 </div>
             </div>
-            <div id="registerMSG" class="msg_hidden"></div>
+           
+            <div id="registerMSG" class="msg hidden"></div>
             <button type="submit" class="btn-primary">
                 <span class="btn-text">Create Account</span>
                 <span class="btn-arrow">→</span>
@@ -132,7 +132,7 @@
         </form>
 
         <!-- Professor Login -->
-        <form id="professorForm" class="form-card_hidden" autocomplete="off">
+        <form id="professorForm" class="form-card hidden" autocomplete="off">
             <div class="prof-login-badge">Faculty Access</div>
             <div class="field-group">
                 <label class="field-label">Professor Email</label>
@@ -159,5 +159,6 @@
         <p class="footer-note">NexusED SIS © 2026</p>
     </footer>
     </main>
+    <script src="main.js"></script>
 </body>
 </html>
