@@ -45,7 +45,6 @@ function getSession(key) {
     }
 }
 
-// FIX 2: saveSession was called but never defined — added here
 function saveSession(key, value) {
     sessionStorage.setItem(key, JSON.stringify(value));
 }
@@ -77,8 +76,6 @@ function initLoginPage() {
     if (getSession('nexus_user')) { location.href = '/dashboard'; return; }
     if (getSession('nexus_prof')) { location.href = '/professor'; return; }
 
-    // FIX 3: Tab switching now correctly targets all buttons via '.tab'
-    // (HTML fix: first button now also has the 'tab' class)
     qsa('.tab').forEach(btn => btn.addEventListener('click', () => {
         qsa('.tab').forEach(t => t.classList.remove('tab_active'));
         btn.classList.add('tab_active');
