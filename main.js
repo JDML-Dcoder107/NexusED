@@ -171,6 +171,23 @@ async function initDashboard() {
     await Promise.all([loadSummary(user.student_id), loadGrades(user.student_id), loadSchedule(user.student_id), 
         loadAnnouncements(),loadEnrollmentSection(user.student_id)
     ]); 
+
+    function populateStudentProfile(user) {
+        $('sidebarAvatar').textContent = user.avatar_seed || '👤';
+        $('sidebarName').textContent = user.name;
+        $('sidebarSrcode').textContent = `SR-CODE:  ${user.student_id}`;
+        $('welcomeMSG').textContent = `Welcome back, ${user.name.split(' ')[0]}`;
+        $('profileAvatar').textContent = user.avater_seed || '👤';
+        $('profile-card-name').textContent = user.name;
+        $('profile-card-course').textContent = user.course;
+        $('tagYear').textContent = `Year Level: ${user.year_level}`;
+        $('tagID').textContent = user.student_id;
+        $('profile-card-email').textContent = user.email;
+    }
+
+    function setupNav(){
+        
+    }
 }
 /* ----- End of Login Page ---- */
 
