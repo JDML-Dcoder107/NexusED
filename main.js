@@ -209,10 +209,36 @@ function setupSidebar() {
 async function loadSummary(student_id) {
     try{
         const data = await fetch(`${API}/summary/${student_id}/summary`).then(response => response.json());
-        $('statusGPA').textContent = data.gpa??'--';
-        $('statusSubject').textContent = data.subject??'--';
-        
+        $('statusGPA').textContent = data.gpa??'-';
+        $('statusSubject').textContent = data.subject??'-';
+        $('statusClasses').textContent = data.classes??'-';
+        $('statusStanding').textContent = data.standing??'-';
+    } catch (err) {
+        console.error('Error loading summary: ', err );
     }
+}
+
+async function loadGrades (student_id) {
+    try {
+        const grades = await fetch(`${API}/student/${student_id}/grades`).then(response => response.json());
+        const tbody = $('gradesBody');
+        if (!grades.length) {tbody.innerHTML = '<tr><td colspan = "6" class="loading-cell">No grades available</td></tr>'; return;}
+        tbody.innerHTML = grades.map((grade, index) => `
+        <tr>
+            <td>${String(index + 1).padStart(2, '0')}</td>
+            <td>${grade.subject}</td>
+            <td>${grade.gpa!=null ? `<span class="gpa-pill ${ClassGrade(grade.gpa)}">${parseFloat(grade.gpa).toFixed(1)}</span>` : '<span class="gpa-pill c">PENDING</span>'}</td>    
+            <td>${grade.semester}</td><td>${grade.school_year}</td>
+            <td>${grade.gpa!=null ? GradeRemarks(grade.gpa) : '-'}</td>
+        </tr>.`).join('');
+    renderBarChart(grades.filter(grade => grade.gpa != null));
+    } catch (err) {
+        console.error('Error loading grades: ', err);
+    }
+}
+
+function renderBarChart(grades) {
+    
 }
 /* ----- End of Login Page ---- */
 
