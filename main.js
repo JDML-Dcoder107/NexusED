@@ -206,6 +206,14 @@ function setupSidebar() {
     topBarMenu.addEventListener('click', () => $('sidebar').classList.toggle('open'));
 }
 
+async function loadSummary(student_id) {
+    try{
+        const data = await fetch(`${API}/summary/${student_id}/summary`).then(response => response.json());
+        $('statusGPA').textContent = data.gpa??'--';
+        $('statusSubject').textContent = data.subject??'--';
+        
+    }
+}
 /* ----- End of Login Page ---- */
 
 initLoginPage();
