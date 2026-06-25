@@ -158,37 +158,54 @@ function initLoginPage() {
 /*Student Dashboard*/
 async function initDashboard() {
     const user = getSession('nexus_user');
-    if (!user) { 
-        location.href = '/'; 
-        return;}
+    if (!user) {
+        location.href = '/';
+        return;
+    }
     StartClock();
     populateStudentProfile(user);
     setupNav();
     setupSidebar();
     $('logoutBTN').addEventListener('click', () => {
-        clearSessions('nexus_user'); 
-        location.href = '/';});
-    await Promise.all([loadSummary(user.student_id), loadGrades(user.student_id), loadSchedule(user.student_id), 
-        loadAnnouncements(),loadEnrollmentSection(user.student_id)
-    ]); 
-
-    function populateStudentProfile(user) {
-        $('sidebarAvatar').textContent = user.avatar_seed || '👤';
-        $('sidebarName').textContent = user.name;
-        $('sidebarSrcode').textContent = `SR-CODE:  ${user.student_id}`;
-        $('welcomeMSG').textContent = `Welcome back, ${user.name.split(' ')[0]}`;
-        $('profileAvatar').textContent = user.avater_seed || '👤';
-        $('profile-card-name').textContent = user.name;
-        $('profile-card-course').textContent = user.course;
-        $('tagYear').textContent = `Year Level: ${user.year_level}`;
-        $('tagID').textContent = user.student_id;
-        $('profile-card-email').textContent = user.email;
-    }
-
-    function setupNav(){
-        
-    }
+        clearSessions('nexus_user');
+        location.href = '/';
+    });
+    await Promise.all([loadSummary(user.student_id), loadGrades(user.student_id), loadSchedule(user.student_id),
+    loadAnnouncements(), loadEnrollmentSection(user.student_id)
+    ]);
 }
+function populateStudentProfile(user) {
+    $('sidebarAvatar').textContent = user.avatar_seed || '👤';
+    $('sidebarName').textContent = user.name;
+    $('sidebarSrcode').textContent = `SR-CODE:  ${user.student_id}`;
+    $('welcomeMSG').textContent = `Welcome back, ${user.name.split(' ')[0]}`;
+    $('profileAvatar').textContent = user.avater_seed || '👤';
+    $('profile-card-name').textContent = user.name;
+    $('profile-card-course').textContent = user.course;
+    $('tagYear').textContent = `Year Level: ${user.year_level}`;
+    $('tagID').textContent = user.student_id;
+    $('profile-card-email').textContent = user.email;
+}
+
+function setupNav() {
+    qsa('.nav-item').forEach(item => 
+        item.addEventListener('click', e => {
+            e.preventDefault();
+            qsa('.nav-item').forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
+            qsa('.dashboard-section').forEach(section => section.classList.remove('active'));
+            $(`section-${item.dataset.section}`).classList.add('active');
+            $('bcCurrent').textContent = qs('.nav-label', item).textContent;
+            if (window.innerWidth <= 768) $('sidebar').classList.remove('open');
+        }));
+};
+
+function setupSidebar() {
+    const topBarMenu = $('menuToggle'); 
+    if (!topBarMenu) return;
+    topBarMenu.addEventListener('click', () => $('sidebar').classList.toggle('open'));
+}
+
 /* ----- End of Login Page ---- */
 
 initLoginPage();
